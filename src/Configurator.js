@@ -61,6 +61,20 @@ function Configurator() {
     ),
     [tabs]
   )
+  const moveTabUp = useCallback(
+    (i) => {
+      const copy = Array(...tabs);
+      copy.splice(i - 1, 0, copy.splice(i, 1)[0]);
+      setTabs(copy);
+    }, [tabs]
+  )
+  const moveTabDown = useCallback(
+    (i) => {
+      const copy = Array(...tabs);
+      copy.splice(i + 1, 0, copy.splice(i, 1)[0]);
+      setTabs(copy);
+    }, [tabs]
+  )
 
   const copyViewUrlCallback = useCallback(() => {
     viewRef.current.select();
@@ -109,6 +123,8 @@ function Configurator() {
               <button onClick={() => editTabTitleCallback(tab)}>✏</button>
               <a href={tab.url} target="_blank" rel="noopener noreferrer">{tab.url}</a>
               <button onClick={() => editTabUrlCallback(tab)}>✏</button>
+              <button onClick={() => moveTabUp(i)} disabled={i === 0}>⬆</button>
+              <button onClick={() => moveTabDown(i)} disabled={i === tabs.length - 1}>⬇</button>
               <button onClick={() => removeTabCallback(tab)}>❌</button>
             </div>
           )}
@@ -132,7 +148,7 @@ function Configurator() {
       <div className="new_preview">
         <TabbedView tabs={tabs} />
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -43,7 +43,7 @@ body {
   flex-wrap: wrap;
 }
 
-.new_config_tab-item:nth-child(2) {
+.new_config_tab-item:nth-child(even) {
   background-color: lightgray;
 }
 

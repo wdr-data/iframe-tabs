@@ -1,0 +1,62 @@
+body {
+  --brand-primary: #00345f;
+}
+
+.new {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.new_config {
+  position: relative;
+  width: 35%;
+}
+
+.new_config_new-tab {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.new_config_tabs {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.new_config_new-tab > *, .new_config_tab-item > * {
+  margin: 10px 5px;
+}
+
+.new_config_tab-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.new_config_tab-item:nth-child(2) {
+  background-color: lightgray;
+}
+
+.new_config_tab-url {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.new_config_tab-url_field {
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.new_preview {
+  position: relative;
+  width: 50%;
+}

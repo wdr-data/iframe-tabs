@@ -2,6 +2,10 @@ body {
   --brand-primary: #00345f;
 }
 
+.break {
+  flex-basis: 100%;
+}
+
 .new {
   position: relative;
   display: flex;
@@ -43,7 +47,7 @@ body {
   background-color: lightgray;
 }
 
-.new_config_tab-url {
+.new_config_tab-url, .new_config_tab-embed {
   width: 100%;
   margin: 20px 0;
   display: flex;
@@ -51,7 +55,18 @@ body {
   flex-wrap: wrap;
 }
 
-.new_config_tab-url_field {
+.new_config_tab-embed input {
+  width: 100%;
+  margin: 5px 0;
+}
+
+.new_config_tab-url-field {
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.new_config_tab-embed-area {
+  margin: 5px 0;
   margin-right: 10px;
   flex-grow: 1;
 }

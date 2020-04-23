@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useCallback, useRef, useMemo } from 'react';
 
 import TabbedView from './TabbedView';
 
 import './Configurator.css';
 
+const makeEmbedCode = (url, title, height) => {
+  return `<iframe title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="94%" style="margin: 0 3%; border: none;" height="${height || 400}"></iframe>`
+}
+
 
 function Configurator() {
   const [tabs, setTabs] = useState([]);
   const [addAllowed, setAddAllowed] = useState(false);
+  const [embedTitle, setEmbedTitle] = useState('');
+  const [embedHeight, setEmbedHeight] = useState(null);
 
   const titleRef = useRef();
   const urlRef = useRef();
   const viewRef = useRef();
+
+  const embedTitleRef = useRef();
+  const embedHeightRef = useRef();
+  const embedRef = useRef();
 
   const newTabCallback = useCallback(() => {
     if (!addAllowed) return;
@@ -34,6 +44,11 @@ function Configurator() {
     document.execCommand("copy");
   }, [])
 
+  const copyEmbedCodeCallback = useCallback(() => {
+    embedRef.current.select();
+    document.execCommand("copy");
+  }, [])
+
   const viewUrl = useMemo(
     () => {
       const url = new URL('/view', window.location.origin);
@@ -45,6 +60,16 @@ function Configurator() {
     },
     [tabs]
   );
+
+  const embedCode = useMemo(
+    () => makeEmbedCode(viewUrl, embedTitle, embedHeight),
+    [viewUrl, embedTitle, embedHeight]
+  )
+  useEffect(
+    () => {
+      embedRef.current.value = embedCode;
+    },
+    [embedCode]);
 
   return (
     <div className="new">
@@ -63,8 +88,18 @@ function Configurator() {
             </div>
           )}
           <div className="new_config_tab-url">
-            <input type="url" ref={viewRef} className="new_config_tab-url_field" value={viewUrl} />
-            <button onClick={copyViewUrlCallback} title="Kopieren"><span role="img" aria-label="Kopieren">🔗</span></button>
+            <h3 className="break">Direkte URL</h3>
+            <input type="url" ref={viewRef} className="new_config_tab-url-field" value={viewUrl} />
+            <button onClick={copyViewUrlCallback} title="Kopieren"><span role="img" aria-label="Kopieren">📝</span></button>
+          </div>
+          <div className="new_config_tab-embed">
+            <h3 className="break">Embed-Code</h3>
+            <input ref={embedTitleRef} onChange={(ev) => setEmbedTitle(ev.currentTarget.value)} type="text" aria-label="Titel" placeholder="Titel (für Barrierefreiheit etc.)" />
+            <div className="break" />
+            <input ref={embedHeightRef} onChange={(ev) => setEmbedHeight(ev.currentTarget.valueAsNumber)} type="number" aria-label="Höhe (pixel)" placeholder="Höhe (pixel)" />
+            <div className="break" />
+            <textarea ref={embedRef} className="new_config_tab-embed-area"></textarea>
+            <button onClick={copyEmbedCodeCallback} title="Kopieren"><span role="img" aria-label="Kopieren">📝</span></button>
           </div>
         </div>
       </div>

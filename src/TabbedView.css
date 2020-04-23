@@ -32,10 +32,31 @@ html, body, #root {
   border-radius: 0;
 }
 
-.react-tabs__tab-panel--selected {
+.panel-container {
+  position: relative;
   flex-grow: 1;
   display: flex;
   justify-content: stretch;
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  flex-grow: 1;
+  display: flex;
+  justify-content: stretch;
+
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: .5s;
+}
+
+.react-tabs__tab-panel--selected {
+  opacity: 1;
 }
 
 .frame {

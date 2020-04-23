@@ -11,16 +11,18 @@ function Frame({ title, url }) {
 function TabbedView({ tabs }) {
   return (
     <div className="app">
-      <Tabs className="tabs">
+      <Tabs className="tabs" forceRenderTabPanel>
         <TabList>
           {
             tabs.map((tab, i) => <Tab key={i}>{tab.title}</Tab>)
           }
         </TabList>
 
-        {
-          tabs.map((tab, i) => <TabPanel key={i} className="panel"><Frame title={tab.title} url={tab.url} /></TabPanel>)
-        }
+        <div className="panel-container">
+          {
+            tabs.map((tab, i) => <TabPanel key={i} className="panel"><Frame title={tab.title} url={tab.url} /></TabPanel>)
+          }
+        </div>
       </Tabs>
     </div>
   );

@@ -9,6 +9,17 @@ const makeEmbedCode = (url, title, height) => {
   return `<iframe title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="94%" style="margin: 0 3%; border: none;" height="${height || 400}"></iframe>`
 }
 
+const parseEmbedCode = (embedCode) => {
+  const url = new URL(embedCode.match(/src="(.*?)"/)[1]);
+  const titles = url.searchParams.getAll('title');
+  const urls = url.searchParams.getAll('frame');
+  const tabs = titles.map((title, i) => ({ title, url: urls[i] }));
+  return {
+    tabs,
+    title: embedCode.match(/title="(.*?)"/)[1],
+    height: Number(embedCode.match(/height="(.*?)"/)[1]),
+  };
+}
 
 function Configurator() {
   const [tabs, setTabs] = useState([]);
@@ -23,6 +34,22 @@ function Configurator() {
   const embedTitleRef = useRef();
   const embedHeightRef = useRef();
   const embedRef = useRef();
+
+  const importCallback = useCallback(
+    () => {
+      const {
+        tabs,
+        title,
+        height
+      } = parseEmbedCode(window.prompt("Gib deinen existierenden Embed-Code hier ein:"));
+      setTabs(tabs);
+      embedTitleRef.current.value = title;
+      setEmbedTitle(title);
+      embedHeightRef.current.value = height;
+      setEmbedHeight(height);
+    },
+    []
+  )
 
   const newTabCallback = useCallback(() => {
     if (!addAllowed) return;
@@ -112,6 +139,7 @@ function Configurator() {
     <div className="new">
       <div className="new_config">
         <div className="new_config_new-tab">
+          <button onClick={importCallback}>Importieren</button>
           <input type="text" className="new_config_new-tab-title" ref={titleRef} placeholder="Titel" onKeyUp={keyCallback} />
           <input type="url" className="new_config_new-tab-url" ref={urlRef} placeholder="URL" onKeyUp={keyCallback} />
           <button onClick={newTabCallback} disabled={!addAllowed}>Hinzufügen</button>

@@ -42,7 +42,7 @@ function Configurator() {
   const editTabTitleCallback = useCallback(
     (tab) => setTabs(
       tabs.map(
-        (t) => t !== tab ? t : { ...tab, title: window.prompt("Neuen Titel eingeben:", tab.title) }
+        (t) => t !== tab ? t : { ...tab, title: window.prompt("Neuen Titel eingeben:", tab.title) || tab.title }
       )
     ),
     [tabs]
@@ -50,7 +50,7 @@ function Configurator() {
   const editTabUrlCallback = useCallback(
     (tab) => setTabs(
       tabs.map(
-        (t) => t !== tab ? t : { ...tab, url: window.prompt("Neue URL eingeben:", tab.url) }
+        (t) => t !== tab ? t : { ...tab, url: window.prompt("Neue URL eingeben:", tab.url) || tab.url }
       )
     ),
     [tabs]

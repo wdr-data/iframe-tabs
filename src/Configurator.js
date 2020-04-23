@@ -19,6 +19,7 @@ function Configurator() {
     setTabs(tabs.concat([{ title: titleRef.current.value, url: urlRef.current.value }]))
     titleRef.current.value = '';
     urlRef.current.value = '';
+    setAddAllowed(false);
   }, [tabs, addAllowed])
 
   const keyCallback = useCallback((ev) => {

@@ -59,20 +59,55 @@ background: none;
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: white;
 
   flex-grow: 1;
   display: flex;
   justify-content: stretch;
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
 
-  opacity: 0;
-  transition-property: opacity;
-  transition-duration: .5s;
-  z-index: -1;
+.panelOut {
+  animation-name: panelAnimOut;
+  animation-duration: 0s;
+  animation-delay: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
 .react-tabs__tab-panel--selected {
-  opacity: 1;
-  z-index: 2;
+  animation-name: panelAnimIn;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes panelAnimIn {
+  from {
+    opacity: 0;
+    visibility: visible;
+    z-index: 2;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+}
+
+@keyframes panelAnimOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+  }
 }
 
 .frame {

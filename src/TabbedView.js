@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import classNames from 'classnames';
+
 import 'react-tabs/style/react-tabs.css';
 
 import './TabbedView.css';
@@ -22,7 +24,15 @@ function TabbedView({ tabs }) {
 
         <div className="panel-container">
           {
-            tabs.map((tab, i) => <TabPanel key={i} className="panel" aria-expanded={i === currentTab}><Frame title={tab.title} url={tab.url} /></TabPanel>)
+            tabs.map(
+              (tab, i) =>
+                <TabPanel
+                  key={i}
+                  className={classNames("panel", i !== currentTab && "panelOut")}
+                  aria-expanded={i === currentTab}>
+                  <Frame title={tab.title} url={tab.url} />
+                </TabPanel>
+            )
           }
         </div>
       </Tabs>

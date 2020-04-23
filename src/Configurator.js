@@ -39,6 +39,29 @@ function Configurator() {
     }
   }, [newTabCallback])
 
+  const editTabTitleCallback = useCallback(
+    (tab) => setTabs(
+      tabs.map(
+        (t) => t !== tab ? t : { ...tab, title: window.prompt("Neuen Titel eingeben:", tab.title) }
+      )
+    ),
+    [tabs]
+  )
+  const editTabUrlCallback = useCallback(
+    (tab) => setTabs(
+      tabs.map(
+        (t) => t !== tab ? t : { ...tab, url: window.prompt("Neue URL eingeben:", tab.url) }
+      )
+    ),
+    [tabs]
+  )
+  const removeTabCallback = useCallback(
+    (tab) => setTabs(
+      tabs.filter((t) => t !== tab)
+    ),
+    [tabs]
+  )
+
   const copyViewUrlCallback = useCallback(() => {
     viewRef.current.select();
     document.execCommand("copy");
@@ -81,15 +104,17 @@ function Configurator() {
         </div>
         <div className="new_config_tabs">
           {tabs.map((tab, i) =>
-            <div className="new_config_tab-item">
+            <div key={i} className="new_config_tab-item">
               <span>{tab.title}</span>
+              <button onClick={() => editTabTitleCallback(tab)}>✏</button>
               <a href={tab.url} target="_blank" rel="noopener noreferrer">{tab.url}</a>
-              <button onClick={() => setTabs(tabs.filter((t) => t !== tab))}>Löschen</button>
+              <button onClick={() => editTabUrlCallback(tab)}>✏</button>
+              <button onClick={() => removeTabCallback(tab)}>❌</button>
             </div>
           )}
           <div className="new_config_tab-url">
             <h3 className="break">Direkte URL</h3>
-            <input type="url" ref={viewRef} className="new_config_tab-url-field" value={viewUrl} />
+            <input type="url" readOnly ref={viewRef} className="new_config_tab-url-field" value={viewUrl} />
             <button onClick={copyViewUrlCallback} title="Kopieren"><span role="img" aria-label="Kopieren">📝</span></button>
           </div>
           <div className="new_config_tab-embed">

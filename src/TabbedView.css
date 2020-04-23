@@ -20,6 +20,7 @@ html, body, #root {
 }
 
 .react-tabs__tab-list {
+  padding-top: 5px;
   margin-bottom: 0;
   border-bottom: 5px var(--brand-primary) solid;
 }
@@ -30,6 +31,19 @@ html, body, #root {
   font-weight: bold;
   border: 0;
   border-radius: 0;
+}
+
+.react-tabs__tab:first-child {
+  margin-left: 7px;
+}
+
+.react-tabs__tab:focus {
+  box-shadow: 0 0 5px var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.react-tabs__tab:focus:after {
+background: none;
 }
 
 .panel-container {

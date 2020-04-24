@@ -6,8 +6,8 @@ import 'react-tabs/style/react-tabs.css';
 
 import './TabbedView.css';
 
-function Frame({ title, url }) {
-  return <iframe className="frame" src={url} title={title} />
+function Frame({ tab }) {
+  return <iframe className="frame" src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} frameBorder="0" scrolling="no" />
 }
 
 function TabbedView({ tabs }) {
@@ -30,7 +30,7 @@ function TabbedView({ tabs }) {
                   key={i}
                   className={classNames("panel", i !== currentTab && "panelOut")}
                   aria-expanded={i === currentTab}>
-                  <Frame title={tab.title} url={tab.url} />
+                  <Frame tab={tab} />
                 </TabPanel>
             )
           }

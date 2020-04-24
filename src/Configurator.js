@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState, useCallback, useRef, useMemo } from 'react';
+import { AllHtmlEntities as Entities } from 'html-entities';
 
 import TabbedView from './TabbedView';
 
@@ -12,8 +13,15 @@ const makeEmbedCode = (url, title, height) => {
 const parseEmbedCode = (embedCode) => {
   const url = new URL(embedCode.match(/src="(.*?)"/)[1]);
   const titles = url.searchParams.getAll('title');
-  const urls = url.searchParams.getAll('frame');
-  const tabs = titles.map((title, i) => ({ title, url: urls[i] }));
+  const urls = url.searchParams.getAll('url');
+  const frameTitles = url.searchParams.getAll('frameTitle');
+  const ariaLabels = url.searchParams.getAll('ariaLabel');
+  const tabs = titles.map((title, i) => ({
+    title,
+    url: urls[i],
+    frameTitle: frameTitles[i],
+    ariaLabel: ariaLabels[i],
+  }));
   return {
     tabs,
     title: embedCode.match(/title="(.*?)"/)[1],
@@ -21,14 +29,27 @@ const parseEmbedCode = (embedCode) => {
   };
 }
 
+const parseDatawrapperEmbedCode = (embedCode) => {
+  const url = embedCode.match(/<iframe[^>]*src="(.*?)"/)[1];
+  const frameTitle = Entities.decode(
+    Entities.decode(
+      embedCode.match(/<iframe[^>]*title="(.*?)"/)[1]));
+  const ariaLabel = Entities.decode(
+    Entities.decode(
+      embedCode.match(/<iframe[^>]*aria-label="(.*?)"/)[1]));
+
+  return {
+    url,
+    frameTitle,
+    ariaLabel,
+  };
+}
+
 function Configurator() {
   const [tabs, setTabs] = useState([]);
-  const [addAllowed, setAddAllowed] = useState(false);
   const [embedTitle, setEmbedTitle] = useState('');
   const [embedHeight, setEmbedHeight] = useState(null);
 
-  const titleRef = useRef();
-  const urlRef = useRef();
   const viewRef = useRef();
 
   const embedTitleRef = useRef();
@@ -52,19 +73,18 @@ function Configurator() {
   )
 
   const newTabCallback = useCallback(() => {
-    if (!addAllowed) return;
-    setTabs(tabs.concat([{ title: titleRef.current.value, url: urlRef.current.value }]))
-    titleRef.current.value = '';
-    urlRef.current.value = '';
-    setAddAllowed(false);
-  }, [tabs, addAllowed])
+    const title = window.prompt("Titel des Tabs:");
+    if (title === null) return;
 
-  const keyCallback = useCallback((ev) => {
-    setAddAllowed(titleRef.current.value && urlRef.current.value);
-    if (ev.key === "Enter") {
-      newTabCallback();
+    const embedCode = window.prompt("Datawrapper Embed-Code:");
+    if (embedCode === null) return;
+
+    const newTab = {
+      ...parseDatawrapperEmbedCode(embedCode),
+      title,
     }
-  }, [newTabCallback])
+    setTabs(tabs.concat([newTab]))
+  }, [tabs])
 
   const editTabTitleCallback = useCallback(
     (tab) => setTabs(
@@ -78,6 +98,22 @@ function Configurator() {
     (tab) => setTabs(
       tabs.map(
         (t) => t !== tab ? t : { ...tab, url: window.prompt("Neue URL eingeben:", tab.url) || tab.url }
+      )
+    ),
+    [tabs]
+  )
+  const editTabFrameTitleCallback = useCallback(
+    (tab) => setTabs(
+      tabs.map(
+        (t) => t !== tab ? t : { ...tab, frameTitle: window.prompt("Neuen iframe-title eingeben:", tab.frameTitle) || tab.frameTitle }
+      )
+    ),
+    [tabs]
+  )
+  const editTabAriaLabelCallback = useCallback(
+    (tab) => setTabs(
+      tabs.map(
+        (t) => t !== tab ? t : { ...tab, ariaLabel: window.prompt("Neues aria-label eingeben:", tab.ariaLabel) || tab.ariaLabel }
       )
     ),
     [tabs]
@@ -118,7 +154,9 @@ function Configurator() {
       const url = new URL('/view', window.location.origin);
       for (const tab of tabs) {
         url.searchParams.append('title', tab.title);
-        url.searchParams.append('frame', tab.url);
+        url.searchParams.append('url', tab.url);
+        url.searchParams.append('frameTitle', tab.frameTitle);
+        url.searchParams.append('ariaLabel', tab.ariaLabel);
       }
       return url.toString();
     },
@@ -140,20 +178,35 @@ function Configurator() {
       <div className="new_config">
         <div className="new_config_new-tab">
           <button onClick={importCallback}>Importieren</button>
-          <input type="text" className="new_config_new-tab-title" ref={titleRef} placeholder="Titel" onKeyUp={keyCallback} />
-          <input type="url" className="new_config_new-tab-url" ref={urlRef} placeholder="URL" onKeyUp={keyCallback} />
-          <button onClick={newTabCallback} disabled={!addAllowed}>Hinzufügen</button>
+          <button onClick={newTabCallback}>Neuer Tab</button>
         </div>
         <div className="new_config_tabs">
+          <h3 className="break">Tabs</h3>
           {tabs.map((tab, i) =>
             <div key={i} className="new_config_tab-item">
-              <span>{tab.title}</span>
-              <button onClick={() => editTabTitleCallback(tab)}>✏</button>
-              <a href={tab.url} target="_blank" rel="noopener noreferrer">{tab.url}</a>
-              <button onClick={() => editTabUrlCallback(tab)}>✏</button>
-              <button onClick={() => moveTabUp(i)} disabled={i === 0}>⬆</button>
-              <button onClick={() => moveTabDown(i)} disabled={i === tabs.length - 1}>⬇</button>
-              <button onClick={() => removeTabCallback(tab)}>❌</button>
+              <div className="new_config_tab-item_attr">
+                <button onClick={() => editTabTitleCallback(tab)}>✏</button>
+                <span>Tab-Titel:</span> <span>{tab.title}</span>
+              </div>
+              <div className="new_config_tab-item_attr">
+                <button onClick={() => editTabUrlCallback(tab)}>✏</button>
+                <span><code>iframe src:</code></span> <span><a href={tab.url} target="_blank" rel="noopener noreferrer">{tab.url}</a></span>
+              </div>
+              <div className="new_config_tab-item_attr">
+                <button onClick={() => editTabFrameTitleCallback(tab)}>✏</button>
+                <span><code>iframe title:</code></span> <span>{tab.frameTitle}</span>
+              </div>
+              <div className="new_config_tab-item_attr">
+                <button onClick={() => editTabAriaLabelCallback(tab)}>✏</button>
+                <span><code>iframe aria-label:</code></span> <span>{tab.ariaLabel}</span>
+              </div>
+
+              <div className="new_config_tab-item_controls">
+                <button onClick={() => moveTabUp(i)} disabled={i === 0}>⬆</button>
+                <button onClick={() => moveTabDown(i)} disabled={i === tabs.length - 1}>⬇</button>
+                <button onClick={() => removeTabCallback(tab)}>❌</button>
+              </div>
+
             </div>
           )}
           <div className="new_config_tab-url">

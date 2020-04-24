@@ -24,16 +24,16 @@ body {
   flex-wrap: wrap;
 }
 
+.new_config_new-tab > * {
+  margin: 10px 5px;
+}
+
 .new_config_tabs {
   width: 100%;
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
   flex-direction: column;
-}
-
-.new_config_new-tab > *, .new_config_tab-item > * {
-  margin: 10px 5px;
 }
 
 .new_config_tab-item {
@@ -45,6 +45,26 @@ body {
 
 .new_config_tab-item:nth-child(even) {
   background-color: lightgray;
+}
+
+.new_config_tab-item_attr {
+  flex-basis: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 5px;
+}
+.new_config_tab-item_attr span {
+  margin-right: 5px;
+}
+.new_config_tab-item_attr button {
+  margin-right: 5px;
+}
+
+.new_config_tab-item_controls button {
+  margin: 5px;
 }
 
 .new_config_tab-url, .new_config_tab-embed {

@@ -13,9 +13,16 @@ import Configurator from './Configurator';
 const urlParams = new URLSearchParams(window.location.search);
 
 const titles = urlParams.getAll('title');
-const frames = urlParams.getAll('frame');
+const urls = urlParams.getAll('url');
+const frameTitles = urlParams.getAll('frameTitle');
+const ariaLabels = urlParams.getAll('ariaLabel');
 
-const tabs = titles.map((title, i) => ({ title, url: frames[i] }));
+const tabs = titles.map((title, i) => ({
+  title,
+  url: urls[i],
+  frameTitle: frameTitles[i],
+  ariaLabel: ariaLabels[i],
+}));
 
 ReactDOM.render(
   <React.StrictMode>

@@ -28,10 +28,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
-        <Route path="/view">
+        <Route path={`${process.env.PUBLIC_URL}/view`}>
           <TabbedView tabs={tabs} />
         </Route>
-        <Route path="/new">
+        <Route path={`${process.env.PUBLIC_URL}/new`}>
           <Configurator />
         </Route>
       </Switch>

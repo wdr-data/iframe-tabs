@@ -70,14 +70,14 @@ background: none;
 .panelOut {
   animation-name: panelAnimOut;
   animation-duration: 0.5s;
-  animation-timing-function: ease-out;
+  animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
 
 .react-tabs__tab-panel--selected {
   animation-name: panelAnimIn;
   animation-duration: 0.5s;
-  animation-timing-function: ease-in;
+  animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
 

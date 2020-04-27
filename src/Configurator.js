@@ -151,7 +151,8 @@ function Configurator() {
 
   const viewUrl = useMemo(
     () => {
-      const url = new URL('/view', window.location.origin);
+      const pathPrefix = window.location.pathname.replace(/\/new\/?$/, '');
+      const url = new URL(`${pathPrefix}/view`, window.location.origin);
       for (const tab of tabs) {
         url.searchParams.append('title', tab.title);
         url.searchParams.append('url', tab.url);

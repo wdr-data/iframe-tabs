@@ -1,5 +1,6 @@
 body {
   --brand-primary: #00345f;
+  background-color: #fdfdfc;
 }
 
 html, body, #root {
@@ -58,6 +59,7 @@ background: none;
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: #fdfdfc;
 
   flex-grow: 1;
   display: flex;
@@ -69,7 +71,8 @@ background: none;
 
 .panelOut {
   animation-name: panelAnimOut;
-  animation-duration: 0.5s;
+  animation-duration: 0s;
+  animation-delay: 0.5s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
@@ -77,7 +80,7 @@ background: none;
 .react-tabs__tab-panel--selected {
   animation-name: panelAnimIn;
   animation-duration: 0.5s;
-  animation-timing-function: linear;
+  animation-timing-function: ease-in;
   animation-fill-mode: forwards;
 }
 

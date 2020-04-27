@@ -10,7 +10,7 @@ function Frame({ tab }) {
   return <iframe className="frame" src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} frameBorder="0" scrolling="no" />
 }
 
-function TabbedView({ tabs }) {
+function TabbedView({ tabs, background = '#fdfdfc' }) {
   const [currentTab, setCurrentTab] = useState(0);
 
   return (
@@ -29,6 +29,7 @@ function TabbedView({ tabs }) {
                 <TabPanel
                   key={i}
                   className={classNames("panel", i !== currentTab && "panelOut")}
+                  style={{background}}
                   aria-expanded={i === currentTab}>
                   <Frame tab={tab} />
                 </TabPanel>

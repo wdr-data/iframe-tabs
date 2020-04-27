@@ -16,6 +16,7 @@ const parseEmbedCode = (embedCode) => {
   const urls = url.searchParams.getAll('url');
   const frameTitles = url.searchParams.getAll('frameTitle');
   const ariaLabels = url.searchParams.getAll('ariaLabel');
+  const background = url.searchParams.get('background');
   const tabs = titles.map((title, i) => ({
     title,
     url: urls[i],
@@ -26,6 +27,7 @@ const parseEmbedCode = (embedCode) => {
     tabs,
     title: embedCode.match(/title="(.*?)"/)[1],
     height: Number(embedCode.match(/height="(.*?)"/)[1]),
+    background,
   };
 }
 
@@ -49,11 +51,13 @@ function Configurator() {
   const [tabs, setTabs] = useState([]);
   const [embedTitle, setEmbedTitle] = useState('');
   const [embedHeight, setEmbedHeight] = useState(null);
+  const [embedBackground, setEmbedBackground] = useState(null);
 
   const viewRef = useRef();
 
   const embedTitleRef = useRef();
   const embedHeightRef = useRef();
+  const embedBackgroundRef = useRef();
   const embedRef = useRef();
 
   const importCallback = useCallback(
@@ -61,13 +65,18 @@ function Configurator() {
       const {
         tabs,
         title,
-        height
+        height,
+        background,
       } = parseEmbedCode(window.prompt("Gib deinen existierenden Embed-Code hier ein:"));
       setTabs(tabs);
       embedTitleRef.current.value = title;
       setEmbedTitle(title);
       embedHeightRef.current.value = height;
       setEmbedHeight(height);
+      if (background) {
+        embedBackgroundRef.current.value = background;
+        setEmbedBackground(background);
+      }
     },
     []
   )
@@ -158,9 +167,12 @@ function Configurator() {
         url.searchParams.append('frameTitle', tab.frameTitle);
         url.searchParams.append('ariaLabel', tab.ariaLabel);
       }
+      if (embedBackground) {
+        url.searchParams.append('background', embedBackground);
+      }
       return url.toString();
     },
-    [tabs]
+    [embedBackground, tabs]
   );
 
   const embedCode = useMemo(
@@ -220,6 +232,8 @@ function Configurator() {
             <div className="break" />
             <input ref={embedHeightRef} onChange={(ev) => setEmbedHeight(ev.currentTarget.valueAsNumber)} type="number" aria-label="Höhe (pixel)" placeholder="Höhe (pixel)" />
             <div className="break" />
+            <input ref={embedBackgroundRef} onChange={(ev) => setEmbedBackground(ev.currentTarget.value)} type="text" aria-label="Hintergrund" placeholder="Hintergrund" />
+            <div className="break" />
             <textarea ref={embedRef} className="new_config_tab-embed-area"></textarea>
             <button onClick={copyEmbedCodeCallback} title="Kopieren"><span role="img" aria-label="Kopieren">📝</span></button>
           </div>
@@ -227,7 +241,7 @@ function Configurator() {
       </div>
 
       <div className="new_preview">
-        <TabbedView tabs={tabs} />
+        <TabbedView tabs={tabs} background={embedBackground} />
       </div>
     </div >
   );

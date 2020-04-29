@@ -7,7 +7,7 @@ import TabbedView from './TabbedView';
 import './Configurator.css';
 
 const makeEmbedCode = (url, title, height) => {
-  return `<iframe title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="94%" style="margin: 0 4%; border: none;" height="${height || 400}"></iframe>`
+  return `<iframe title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="92%" style="margin: 0 4%; border: none;" height="${height || 400}"></iframe>`
 }
 
 const parseEmbedCode = (embedCode) => {

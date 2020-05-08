@@ -123,4 +123,5 @@ background: none;
   flex-grow: 1;
   margin: 10px;
   border: 0;
+  max-width: 100%;
 }

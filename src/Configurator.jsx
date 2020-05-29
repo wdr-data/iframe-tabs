@@ -241,7 +241,7 @@ function Configurator() {
       </div>
 
       <div className="new_preview">
-        <TabbedView tabs={tabs} background={embedBackground} />
+        <TabbedView tabs={tabs} background={embedBackground || undefined} />
       </div>
     </div >
   );

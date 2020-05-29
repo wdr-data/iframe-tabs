@@ -1,13 +1,16 @@
-body {
+:root {
   --brand-primary: #00345f;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100vh;
   font-family: Verdana, sans-serif;
 }
 
-.app, .tabs {
+.app,
+.tabs {
   width: 100%;
   height: 100vh;
 }
@@ -15,7 +18,6 @@ html, body, #root {
 .tabs {
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
 }
 
 .react-tabs__tab-list {
@@ -51,27 +53,22 @@ html, body, #root {
 }
 
 .react-tabs__tab:focus:after {
-background: none;
+  background: none;
 }
 
 .panel-container {
   position: relative;
   flex-grow: 1;
-  display: flex;
-  justify-content: stretch;
 }
 
 .panel {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   background-color: #fdfdfc;
 
-  flex-grow: 1;
-  display: flex;
-  justify-content: stretch;
   opacity: 1;
   visibility: visible;
   z-index: 1;
@@ -120,8 +117,7 @@ background: none;
 
 .frame {
   display: block;
-  flex-grow: 1;
-  margin: 10px;
   border: 0;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }

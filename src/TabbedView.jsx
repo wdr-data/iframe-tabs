@@ -14,7 +14,7 @@ function TabbedView({ tabs, background = '#fdfdfc' }) {
   const [currentTab, setCurrentTab] = useState(0);
 
   return (
-    <div className="app">
+    <div className="app" style={{background}}>
       <Tabs className="tabs" forceRenderTabPanel onSelect={(index) => setCurrentTab(index)}>
         <TabList>
           {

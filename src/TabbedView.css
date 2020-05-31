@@ -1,18 +1,9 @@
 :root {
   --brand-primary: #00345f;
 }
-
-html,
-body,
-#root {
-  height: 100vh;
-  font-family: Verdana, sans-serif;
-}
-
 .app,
 .tabs {
   width: 100%;
-  height: 100vh;
 }
 
 .tabs {
@@ -22,28 +13,46 @@ body,
 
 .panel-container {
   position: relative;
-  flex-grow: 1;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 .panel {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background-color: #fdfdfc;
+  position: relative;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+
+  grid-area: 1 / 1 / 2 / 2;
 
   opacity: 1;
   visibility: visible;
   z-index: 1;
 }
 
-.panelOut {
-  animation-name: panelAnimOut;
-  animation-duration: 0s;
-  animation-delay: 0.5s;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
+.panel-fixed {
+  flex-grow: 1;
+}
+
+@keyframes panelAnimOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+    /* margin-top: -100%; */
+    height: 0;
+  }
 }
 
 @keyframes panelAnimIn {
@@ -59,22 +68,31 @@ body,
   }
 }
 
-@keyframes panelAnimOut {
-  from {
-    opacity: 1;
-    visibility: visible;
-    z-index: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-    z-index: 0;
-  }
+.panel-selected {
+  animation-name: panelAnimIn;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+.panel-out {
+  animation-name: panelAnimOut;
+  animation-duration: 0s;
+  animation-delay: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.panel-fixed {
+  height: 100% !important;
 }
 
 .frame {
   display: block;
   border: 0;
   width: 100%;
+}
+
+.frame-fixed {
   height: 100%;
 }

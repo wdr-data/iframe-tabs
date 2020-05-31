@@ -20,6 +20,8 @@ const urls = urlParams.getAll('url');
 const frameTitles = urlParams.getAll('frameTitle');
 const ariaLabels = urlParams.getAll('ariaLabel');
 const background = urlParams.get('background') || undefined;
+const height = urlParams.get('height') || undefined;
+const uuid = urlParams.get('uuid') || undefined;
 
 const tabs = titles.map((title, i) => ({
   title,
@@ -33,7 +35,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path={`${process.env.PUBLIC_URL}/view`}>
-          <TabbedView tabs={tabs} background={background} />
+          <TabbedView uuid={uuid} tabs={tabs} height={height} background={background} />
         </Route>
         <Route path={`${process.env.PUBLIC_URL}/new`}>
           <Configurator />

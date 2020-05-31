@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames';
 
-import 'react-tabs/style/react-tabs.css';
+import "react-tabs/style/react-tabs.css";
+import "./react-tabs-style-overrides.css";
 
 import './TabbedView.css';
 

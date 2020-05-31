@@ -9,6 +9,7 @@ import "./react-tabs-style-overrides.css";
 import "./TabbedView.css";
 import { useLayoutEffect } from "react";
 import { useRef } from "react";
+import { useEffect } from "react";
 
 const Frame = ({ tab, ...props }) => {
   return <DWChart src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
@@ -16,28 +17,34 @@ const Frame = ({ tab, ...props }) => {
 
 function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
   const [currentTab, setCurrentTab] = useState(0);
+  const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
 
   useLayoutEffect(() => {
-    if (!uuid) {
+    if (!uuid || height) {
       return;
     }
 
     const handle = setInterval(async () => {
       if (!appRef.current) return;
-      if (height) return;
       const app = appRef.current;
-      const command = {
-        "set-height": {
-          value: `${app.clientHeight}`,
-        },
-      };
-      window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
-    }, 1000);
+      setAppHeight(app.clientHeight);
+    }, 250);
     return () => {
       clearInterval(handle);
     };
   }, [height, uuid]);
+
+  useEffect(() => {
+    if (!appHeight || !uuid) return;
+
+    const command = {
+      "set-height": {
+        value: `${appHeight}`,
+      },
+    };
+    window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
+  }, [uuid, appHeight]);
 
   return (
     <div className="app" ref={appRef} style={{ background }}>

@@ -18,7 +18,7 @@ const makeResizerScript = (uuid) => {
 };
 
 const makeEmbedCode = (uuid, url, title, height) => {
-  return `<iframe id="data-tabs-${uuid}" title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="92%" style="margin: 0 4%; border: none;" height="${height}"></iframe>${
+  return `<iframe id="data-tabs-${uuid}" title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="92%" style="margin: 0 4%; border: none; transition: height 0.2s ease-in-out;" height="${height}"></iframe>${
     !height ? makeResizerScript(uuid) : ""
   }`;
 };

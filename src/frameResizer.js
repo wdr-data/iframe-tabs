@@ -9,7 +9,7 @@ export default function () {
         const n = document.getElementById("data-tabs-" + tgt);
         if (!n) return;
         if (cmd["set-height"]) {
-            n.style.height = n.style.maxHeight = cmd["set-height"].value + "px";
+            n.style.height = cmd["set-height"].value + "px";
         }
     })
 }

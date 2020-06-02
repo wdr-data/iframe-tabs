@@ -35,7 +35,7 @@ function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
       if (!appRef.current) return;
       const app = appRef.current;
       setAppHeight(app.clientHeight);
-    }, 250);
+    }, 100);
     return () => {
       clearInterval(handle);
     };

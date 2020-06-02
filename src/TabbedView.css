@@ -61,7 +61,6 @@
     opacity: 0;
     visibility: hidden;
     z-index: 0;
-    margin-top: -1000px;
   }
 }
 
@@ -91,6 +90,8 @@
   animation-delay: 0.5s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
+  margin-top: -1000px;
+  transform: translateY(1000px);
 }
 
 .panel-fixed {

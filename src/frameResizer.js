@@ -1,6 +1,6 @@
 export default function () {
     window.addEventListener("message", function (a) {
-        if (typeof data === 'string') return;
+        if (typeof a.data === 'string') return;
         const cmd = a.data["data-tabs-command"];
         const tgt = a.data["data-tabs-target"];
         if (!cmd) return;

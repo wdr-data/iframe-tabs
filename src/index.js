@@ -20,7 +20,7 @@ const urls = urlParams.getAll('url');
 const frameTitles = urlParams.getAll('frameTitle');
 const ariaLabels = urlParams.getAll('ariaLabel');
 const background = urlParams.get('background') || undefined;
-const height = urlParams.get('height') || undefined;
+const height = urlParams.get('height') || null;
 const uuid = urlParams.get('uuid') || undefined;
 
 const tabs = titles.map((title, i) => ({

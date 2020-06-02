@@ -5,7 +5,16 @@
 }
 .app,
 .tabs {
+  position: relative;
   width: 100%;
+}
+
+.app-fixed {
+  height: 100vh;
+}
+
+.tabs-fixed {
+  height: 100%;
 }
 
 .tabs {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import classNames from "classnames";
 import DWChart from "react-datawrapper-chart";
@@ -11,8 +11,12 @@ import { useLayoutEffect } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 
-const Frame = ({ tab, ...props }) => {
-  return <DWChart src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
+const Frame = ({ tab, isFixedHeight, ...props }) => {
+  if (isFixedHeight) {
+    return <iframe src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
+  } else {
+    return <DWChart src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
+  }
 };
 
 function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
@@ -20,8 +24,10 @@ function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
 
+  const isFixedHeight = useMemo(() => height || height === null, [height]);
+
   useLayoutEffect(() => {
-    if (!uuid || height) {
+    if (!uuid || isFixedHeight) {
       return;
     }
 
@@ -33,7 +39,7 @@ function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
     return () => {
       clearInterval(handle);
     };
-  }, [height, uuid]);
+  }, [isFixedHeight, uuid]);
 
   useEffect(() => {
     if (!appHeight || !uuid) return;
@@ -47,10 +53,13 @@ function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
   }, [uuid, appHeight]);
 
   return (
-    <div className="app" ref={appRef} style={{ background }}>
+    <div
+      className={classNames("app", isFixedHeight && "app-fixed")}
+      ref={appRef}
+      style={{ background }}
+    >
       <Tabs
-        className="tabs"
-        style={{ height: `${height}px` }}
+        className={classNames("tabs", isFixedHeight && "tabs-fixed")}
         forceRenderTabPanel
         onSelect={(index) => setCurrentTab(index)}
       >
@@ -60,19 +69,23 @@ function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
           ))}
         </TabList>
 
-        <div className={classNames("panel-container", height && "panel-fixed")}>
+        <div className={classNames("panel-container", isFixedHeight && "panel-fixed")}>
           {tabs.map((tab, i) => (
             <TabPanel
               key={i}
               className={classNames(
                 "panel",
                 i !== currentTab ? "panel-out" : "panel-selected",
-                height && "panel-fixed"
+                isFixedHeight && "panel-fixed"
               )}
               style={{ background }}
               aria-expanded={i === currentTab}
             >
-              <Frame tab={tab} className={classNames("frame", height && "frame-fixed")} />
+              <Frame
+                tab={tab}
+                isFixedHeight={isFixedHeight}
+                className={classNames("frame", isFixedHeight && "frame-fixed")}
+              />
             </TabPanel>
           ))}
         </div>

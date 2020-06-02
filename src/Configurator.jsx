@@ -203,9 +203,9 @@ function Configurator() {
     if (embedBackground) {
       url.searchParams.append("background", embedBackground);
     }
-    if (embedHeight) {
-      url.searchParams.append("height", embedHeight);
-    }
+
+    url.searchParams.append("height", embedHeight || "auto");
+
     return url.toString();
   }, [embedBackground, embedHeight, tabs, uuid]);
 

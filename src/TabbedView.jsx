@@ -19,12 +19,12 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
   }
 };
 
-function TabbedView({ uuid, tabs, height = "", background = "#fdfdfc" }) {
+function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
   const [currentTab, setCurrentTab] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
 
-  const isFixedHeight = useMemo(() => height || height === null, [height]);
+  const isFixedHeight = useMemo(() => height !== "auto", [height]);
 
   useLayoutEffect(() => {
     if (!uuid || isFixedHeight) {

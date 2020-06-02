@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "postcss --use postcss-custom-properties --replace build/**/*.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -40,5 +41,9 @@
       "last 1 edge version",
       "ie 11"
     ]
+  },
+  "devDependencies": {
+    "postcss-cli": "^7.1.1",
+    "postcss-custom-properties": "^9.1.1"
   }
 }

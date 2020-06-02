@@ -323,11 +323,13 @@ function Configurator() {
       </div>
 
       <div className="new_preview">
-        <TabbedView
-          tabs={tabs}
-          height={embedHeight ? embedHeight : undefined}
-          background={embedBackground || undefined}
-        />
+        <div className="preview_overflow">
+          <TabbedView
+            tabs={tabs}
+            height={embedHeight ? embedHeight : undefined}
+            background={embedBackground || undefined}
+          />
+        </div>
       </div>
     </div>
   );

@@ -63,7 +63,8 @@
   margin: 5px;
 }
 
-.new_config_tab-url, .new_config_tab-embed {
+.new_config_tab-url,
+.new_config_tab-embed {
   width: 100%;
   margin: 20px 0;
   display: flex;
@@ -90,4 +91,8 @@
 .new_preview {
   position: relative;
   width: 50%;
+}
+
+.preview_overflow {
+  overflow: hidden;
 }

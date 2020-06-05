@@ -13,9 +13,27 @@ import { useEffect } from "react";
 
 const Frame = ({ tab, isFixedHeight, ...props }) => {
   if (isFixedHeight) {
-    return <iframe src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
+    return (
+      <iframe
+        src={tab.url}
+        title={tab.frameTitle}
+        aria-label={tab.ariaLabel}
+        frameBorder="0"
+        scrolling="no"
+        {...props}
+      />
+    );
   } else {
-    return <DWChart src={tab.url} title={tab.frameTitle} aria-label={tab.ariaLabel} {...props} />;
+    return (
+      <DWChart
+        src={tab.url}
+        title={tab.frameTitle}
+        aria-label={tab.ariaLabel}
+        frameBorder="0"
+        scrolling="no"
+        {...props}
+      />
+    );
   }
 };
 

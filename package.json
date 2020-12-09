@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "postcss-cli": "^7.1.1",
-    "postcss-custom-properties": "^9.1.1"
+    "postcss-custom-properties": "^9.1.1",
+    "serve": "^11.3.2"
   }
 }

@@ -5,6 +5,7 @@
   display: flex;
   align-items: flex-end;
   flex-wrap: wrap;
+  min-height: 30px;
 }
 
 .react-tabs__tab {

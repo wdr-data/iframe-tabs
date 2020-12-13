@@ -267,7 +267,11 @@ function Configurator() {
                 <button onClick={() => moveTabDown(i)} disabled={i === tabs.length - 1}>
                   ⬇
                 </button>
-                <button onClick={() => removeTabCallback(tab)}><span role="img" aria-label="Löschen">❌</span></button>
+                <button onClick={() => removeTabCallback(tab)}>
+                  <span role="img" aria-label="Löschen">
+                    ❌
+                  </span>
+                </button>
               </div>
             </div>
           ))}

@@ -2,14 +2,9 @@
   padding: 8px 8px 0 8px;
   margin-bottom: 0;
   border-bottom: 5px var(--brand-primary) solid;
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  min-height: 30px;
 }
 
 .react-tabs__tab {
-  display: block;
   border: 2px solid var(--brand-primary);
   margin: 0 -1px -2px -1px;
   border-radius: 0;
